@@ -1,7 +1,7 @@
 export type EngineMode = "flash" | "pro" | "expert" | "deep" | "journal";
 
-export const ENGINE_KEY = "orbis-engine";
-export const ENGINE_EVENT = "orbis-engine-change";
+export const ENGINE_KEY = "infinity-engine";
+export const ENGINE_EVENT = "infinity-engine-change";
 
 export const engineLabels: Record<EngineMode, string> = {
   flash: "Gemini Flash",

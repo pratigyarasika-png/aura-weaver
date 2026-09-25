@@ -29,7 +29,7 @@ export function DiagramStudio({ onInsert }: Props) {
         const mermaid = (await import("mermaid")).default;
         mermaid.initialize({ startOnLoad: false, securityLevel: "strict", theme: "neutral" });
         counter.current += 1;
-        const { svg: rendered } = await mermaid.render(`orbis-diagram-${counter.current}`, code);
+        const { svg: rendered } = await mermaid.render(`infinity-diagram-${counter.current}`, code);
         if (!cancelled) {
           setSvg(rendered);
           setError(null);
@@ -107,7 +107,7 @@ export function DiagramStudio({ onInsert }: Props) {
         <Button
           className="h-9 w-full rounded-full text-xs"
           disabled={!svg}
-          onClick={() => onInsert(`<figure class="orbis-figure">${svg}</figure><p></p>`)}
+          onClick={() => onInsert(`<figure class="infinity-figure">${svg}</figure><p></p>`)}
         >
           Insert diagram into manuscript
         </Button>

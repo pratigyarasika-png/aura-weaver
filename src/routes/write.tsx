@@ -75,13 +75,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/write")({
   head: () => ({
     meta: [
-      { title: "Writing Workspace — Orbis Research" },
+      { title: "Writing Workspace — Infinity Research" },
       {
         name: "description",
         content:
           "Draft academic writing with Gemini assistance, grounded in your saved papers, with inline citations, LaTeX equations, and Word, PDF, BibTeX and RIS export.",
       },
-      { property: "og:title", content: "Writing Workspace — Orbis Research" },
+      { property: "og:title", content: "Writing Workspace — Infinity Research" },
       {
         property: "og:description",
         content:
@@ -94,8 +94,8 @@ export const Route = createFileRoute("/write")({
   component: WritingWorkspace,
 });
 
-const DOC_KEY = "orbis-document";
-const STYLE_KEY = "orbis-citation-style";
+const DOC_KEY = "infinity-document";
+const STYLE_KEY = "infinity-citation-style";
 
 function WritingWorkspace() {
   const editorRef = useRef<HTMLDivElement>(null);

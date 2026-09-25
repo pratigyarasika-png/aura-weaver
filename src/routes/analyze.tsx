@@ -27,9 +27,9 @@ import { interpretDataset } from "@/lib/data-insights.functions";
 
 export const Route = createFileRoute("/analyze")({
   head: () => ({ meta: [
-    { title: "Data Analysis Suite — Orbis" },
+    { title: "Data Analysis Suite — Infinity" },
     { name: "description", content: "Analyze CSV and Excel datasets with charts, statistics, regression, and AI interpretation." },
-    { property: "og:title", content: "Data Analysis Suite — Orbis" },
+    { property: "og:title", content: "Data Analysis Suite — Infinity" },
     { property: "og:description", content: "Explore datasets with statistical tests, visualizations, and careful AI interpretation." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -39,7 +39,7 @@ export const Route = createFileRoute("/analyze")({
 
 type ChartType = "bar" | "line" | "scatter" | "histogram" | "correlation";
 type SavedDataset = { id: string; name: string; savedAt: string; rows: DataRow[] };
-const STORAGE_KEY = "orbis-data-analysis-sessions";
+const STORAGE_KEY = "infinity-data-analysis-sessions";
 const chartConfig = { value: { label: "Value", color: "var(--color-primary)" }, count: { label: "Count", color: "var(--color-signal)" } } satisfies ChartConfig;
 const sampleRows: DataRow[] = [
   { cohort: "Control", hours: 2, score: 61, confidence: 3.1 }, { cohort: "Control", hours: 3, score: 65, confidence: 3.4 },

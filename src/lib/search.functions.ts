@@ -28,7 +28,7 @@ const inputSchema = z.object({
   sort: z.enum(["relevance", "citations", "year"]).default("relevance"),
 });
 
-const UA = "Orbis-Research-Workspace (contact: research@orbis.app)";
+const UA = "Infinity-Research-Workspace (contact: research@infinity.app)";
 
 function clean(text?: string | null) {
   if (!text) return null;
@@ -46,7 +46,7 @@ function reconstructAbstract(inverted?: Record<string, number[]> | null) {
 
 async function getJson(url: string, attempt = 0): Promise<any> {
   const polite = url.includes("api.openalex.org") && !url.includes("mailto=")
-    ? `${url}&mailto=research@orbis.app`
+    ? `${url}&mailto=research@infinity.app`
     : url;
   const res = await fetch(polite, {
     headers: { Accept: "application/json", "User-Agent": UA },

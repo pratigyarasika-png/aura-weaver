@@ -3,7 +3,7 @@
  * No backend, no external dependency — everything stays on the device.
  */
 
-const DB_NAME = "orbis-local";
+const DB_NAME = "infinity-local";
 const DB_VERSION = 1;
 export const STORES = ["projects", "settings", "notes"] as const;
 export type StoreName = (typeof STORES)[number];
@@ -30,7 +30,7 @@ function openDb(): Promise<IDBDatabase> {
   return dbPromise;
 }
 
-const fallbackKey = (store: StoreName) => `orbis-idb-${store}`;
+const fallbackKey = (store: StoreName) => `infinity-idb-${store}`;
 
 function readFallback<T extends { id: string }>(store: StoreName): T[] {
   if (typeof window === "undefined") return [];

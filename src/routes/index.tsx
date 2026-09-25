@@ -49,12 +49,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Orbis — AI Academic Research Workspace" },
+      { title: "Infinity — AI Academic Research Workspace" },
       {
         name: "description",
-        content: "Explore literature, synthesize papers, and organize academic research in Orbis.",
+        content: "Explore literature, synthesize papers, and organize academic research in Infinity.",
       },
-      { property: "og:title", content: "Orbis — AI Academic Research Workspace" },
+      { property: "og:title", content: "Infinity — AI Academic Research Workspace" },
       {
         property: "og:description",
         content: "A focused AI workspace for literature discovery, synthesis, and citations.",
@@ -70,7 +70,7 @@ type Theme = "light" | "dark";
 type EngineMode = "flash" | "pro" | "expert" | "deep" | "journal";
 type AskMode = "general" | "academic";
 
-const ASK_MODE_KEY = "orbis-ask-mode";
+const ASK_MODE_KEY = "infinity-ask-mode";
 
 const askModes = [
   {
@@ -183,8 +183,8 @@ function ResearchWorkspace() {
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("orbis-theme");
-    const savedAccent = window.localStorage.getItem("orbis-accent");
+    const savedTheme = window.localStorage.getItem("infinity-theme");
+    const savedAccent = window.localStorage.getItem("infinity-accent");
     const savedMode = window.localStorage.getItem(ASK_MODE_KEY);
     const nextTheme: Theme = savedTheme === "dark" ? "dark" : "light";
     const nextAccent = savedAccent && isHex(savedAccent) ? savedAccent : DEFAULT_ACCENT;
@@ -233,8 +233,8 @@ function ResearchWorkspace() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.setProperty("--user-accent", accent);
     document.documentElement.style.setProperty("--accent-on", accentForeground(accent));
-    window.localStorage.setItem("orbis-theme", theme);
-    window.localStorage.setItem("orbis-accent", accent);
+    window.localStorage.setItem("infinity-theme", theme);
+    window.localStorage.setItem("infinity-accent", accent);
   }, [theme, accent]);
 
   useEffect(() => {
@@ -275,7 +275,7 @@ function ResearchWorkspace() {
             </div>
             {sidebarOpen && (
               <div className="min-w-0">
-                <p className="font-display truncate text-lg font-semibold">Orbis</p>
+                <p className="font-display truncate text-lg font-semibold">Infinity</p>
                 <p className="truncate text-xs text-muted-foreground">Research intelligence</p>
               </div>
             )}
@@ -404,7 +404,7 @@ function ResearchWorkspace() {
                   <div className="engine-panel absolute right-0 top-12 w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-border bg-popover p-2 text-popover-foreground shadow-xl">
                     <div className="px-3 pb-2 pt-1">
                       <p className="font-display text-sm font-semibold">AI engine control</p>
-                      <p className="text-[11px] text-muted-foreground">Choose how Orbis approaches this session</p>
+                      <p className="text-[11px] text-muted-foreground">Choose how Infinity approaches this session</p>
                     </div>
                     <div className="space-y-1" role="listbox" aria-label="AI engine mode">
                       {engineModes.map((mode) => {
@@ -542,7 +542,7 @@ function ResearchWorkspace() {
               <p className="mb-3 text-xs font-semibold uppercase text-primary-ink">AI research orbit</p>
               <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">What are you investigating?</h2>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
-                Start with a question, paper, or concept. Orbis will trace the evidence around it.
+                Start with a question, paper, or concept. Infinity will trace the evidence around it.
               </p>
             </div>
 
@@ -607,7 +607,7 @@ function ResearchWorkspace() {
                   else void runGeneralAsk(prompt);
                 }}>
                 <span className="mb-2 grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:mb-4 sm:size-12"><WandSparkles className="size-4 sm:size-5" /></span>
-                <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Orbis</label>
+                <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Infinity</label>
                 <textarea
                   id="research-query"
                   value={query}

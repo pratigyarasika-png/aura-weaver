@@ -10,8 +10,8 @@ export type SavedPaper = {
 };
 
 
-export const LIBRARY_KEY = "orbis-library";
-export const LIBRARY_EVENT = "orbis-library-change";
+export const LIBRARY_KEY = "infinity-library";
+export const LIBRARY_EVENT = "infinity-library-change";
 
 export function loadLibrary(): SavedPaper[] {
   if (typeof window === "undefined") return [];

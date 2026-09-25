@@ -61,7 +61,7 @@ export const Route = createFileRoute("/api/scrape-table")({
         try {
           response = await fetch(target, {
             headers: {
-              "User-Agent": "Mozilla/5.0 (compatible; OrbisResearch/1.0)",
+              "User-Agent": "Mozilla/5.0 (compatible; InfinityResearch/1.0)",
               Accept: "text/html,application/xhtml+xml",
             },
             redirect: "follow",

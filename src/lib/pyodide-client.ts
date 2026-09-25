@@ -68,9 +68,9 @@ import matplotlib
 matplotlib.use("AGG")
 import matplotlib.pyplot as plt
 
-_orbis_figures = []
+_infinity_figures = []
 
-def _orbis_collect():
+def _infinity_collect():
     out = []
     for number in plt.get_fignums():
         figure = plt.figure(number)
@@ -114,20 +114,20 @@ export async function runPython(
   try {
     await pyodide.runPythonAsync(FIGURE_CAPTURE);
     if (dataset) {
-      pyodide.FS.writeFile("/orbis_dataset.csv", datasetToCsv(dataset));
+      pyodide.FS.writeFile("/infinity_dataset.csv", datasetToCsv(dataset));
       await pyodide.runPythonAsync(
-        `import pandas as pd\ndf = pd.read_csv("/orbis_dataset.csv")\n`,
+        `import pandas as pd\ndf = pd.read_csv("/infinity_dataset.csv")\n`,
       );
     } else {
       await pyodide.runPythonAsync(`import pandas as pd\ndf = pd.DataFrame()\n`);
     }
     await pyodide.runPythonAsync(code);
-    const raw = await pyodide.runPythonAsync(`_orbis_collect()`);
+    const raw = await pyodide.runPythonAsync(`_infinity_collect()`);
     figures = JSON.parse(String(raw)) as string[];
   } catch (thrown) {
     error = thrown instanceof Error ? thrown.message : String(thrown);
     try {
-      const raw = await pyodide.runPythonAsync(`_orbis_collect()`);
+      const raw = await pyodide.runPythonAsync(`_infinity_collect()`);
       figures = JSON.parse(String(raw)) as string[];
     } catch {
       figures = [];

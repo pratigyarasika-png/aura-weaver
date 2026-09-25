@@ -49,7 +49,7 @@ function posterHtml(title: string, authors: string, sections: Section[], layout:
           .join("")}</div>`
       : `<div style="column-count:${columns};column-gap:16px">${cards}</div>`;
 
-  return `<article class="orbis-poster" style="border:1px solid #e5e7eb;border-radius:20px;padding:22px;background:#fff;color:#111">
+  return `<article class="infinity-poster" style="border:1px solid #e5e7eb;border-radius:20px;padding:22px;background:#fff;color:#111">
   <header style="border-bottom:4px solid ${accent};padding-bottom:12px;margin-bottom:16px">
     <h2 style="margin:0;font-size:22px;line-height:1.25">${esc(title)}</h2>
     <p style="margin:6px 0 0;font-size:12px;color:#555">${esc(authors)}</p>

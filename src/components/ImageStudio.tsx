@@ -92,7 +92,7 @@ export function ImageStudio({ onInsert }: Props) {
           variant="outline"
           className="h-9 w-full rounded-full text-xs"
           disabled={!src || !isFinal}
-          onClick={() => onInsert(`<figure class="orbis-figure"><img src="${src}" alt="${prompt.replace(/"/g, "'")}" /><figcaption>${prompt}</figcaption></figure><p></p>`)}
+          onClick={() => onInsert(`<figure class="infinity-figure"><img src="${src}" alt="${prompt.replace(/"/g, "'")}" /><figcaption>${prompt}</figcaption></figure><p></p>`)}
         >
           Insert figure into manuscript
         </Button>

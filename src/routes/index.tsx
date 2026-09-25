@@ -6,6 +6,7 @@ import {
   BookMarked,
   BookOpenText,
   BrainCircuit,
+  Camera,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -18,11 +19,13 @@ import {
   GraduationCap,
   LayoutDashboard,
   Library,
+  Image,
   Menu,
   MessageSquareText,
   Moon,
   Network,
   Palette,
+  Paperclip,
   PanelLeftClose,
   PanelLeftOpen,
   PenTool,
@@ -30,10 +33,12 @@ import {
   Quote,
   Search,
   Send,
+  Settings,
   Sparkles,
   Square,
   Sun,
   Terminal,
+  Video,
   WandSparkles,
   X,
 } from "lucide-react";
@@ -49,12 +54,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Orbis — AI Academic Research Workspace" },
+      { title: "Infinity — AI Academic Research Workspace" },
       {
         name: "description",
-        content: "Explore literature, synthesize papers, and organize academic research in Orbis.",
+        content: "Explore literature, synthesize papers, and organize academic research in Infinity.",
       },
-      { property: "og:title", content: "Orbis — AI Academic Research Workspace" },
+      { property: "og:title", content: "Infinity — AI Academic Research Workspace" },
       {
         property: "og:description",
         content: "A focused AI workspace for literature discovery, synthesis, and citations.",
@@ -70,7 +75,7 @@ type Theme = "light" | "dark";
 type EngineMode = "flash" | "pro" | "expert" | "deep" | "journal";
 type AskMode = "general" | "academic";
 
-const ASK_MODE_KEY = "orbis-ask-mode";
+const ASK_MODE_KEY = "infinity-ask-mode";
 
 const askModes = [
   {
@@ -153,12 +158,49 @@ const hubActions: Array<{
   to?: "/search" | "/write" | "/analyze" | "/analysis" | "/converter";
   withQuery?: boolean;
 }> = [
-  { label: "Find papers", helper: "Search literature", icon: Search, position: "hub-action-top", to: "/search", withQuery: true },
-  { label: "Map concepts", helper: "Connect findings", icon: Network, position: "hub-action-right", to: "/analyze" },
-  { label: "Cite sources", helper: "Build references", icon: Quote, position: "hub-action-bottom", to: "/write" },
-  { label: "Analyze PDF", helper: "Ask documents", icon: FileText, position: "hub-action-left" },
-  { label: "Data Suite", helper: "Code & statistics", icon: Code2, position: "hub-action-nw", to: "/analysis" },
+  { label: "Cari Makalah", helper: "Pencarian jurnal & naskah", icon: Search, position: "hub-action-top", to: "/search", withQuery: true },
+  { label: "Peta Konsep", helper: "Visualisasi keterkaitan studi", icon: Network, position: "hub-action-right", to: "/analyze" },
+  { label: "Manajemen Sitasi", helper: "Kutip & format referensi", icon: Quote, position: "hub-action-bottom", to: "/write" },
+  { label: "Analisis PDF", helper: "Ringkasan & tanya jawab", icon: FileText, position: "hub-action-left" },
 ];
+
+const moduleGroups = [
+  {
+    title: "RISET",
+    icon: Search,
+    items: [
+      ["Pencarian Literatur", Search], ["Pemetaan Konsep", Network], ["Tanya Jawab Dokumen", FileText],
+      ["Google Scholar", GraduationCap], ["Pencarian Akademis Lanjutan", Search],
+    ],
+  },
+  {
+    title: "MENULIS",
+    icon: PenTool,
+    items: [
+      ["Editor Naskah Akademik", PenTool], ["Pembuat Sitasi (APA/MLA)", Quote], ["Tulis Draf Riset", FileText],
+      ["Tulis Laporan", BookOpenText], ["Proposal Riset", MessageSquareText], ["Catatan Diskusi", MessageSquareText],
+      ["Manuskrip Poster", LayoutDashboard], ["Manuskrip LaTeX", Sparkles],
+    ],
+  },
+  {
+    title: "DATA",
+    icon: BarChart2,
+    items: [
+      ["Olah Data & Koding (Python/R)", Code2], ["Rangkaian Uji Statistik", BrainCircuit], ["Statistik Deskriptif", BarChart2],
+      ["Kumpulan Data Online", Archive], ["Ekstraksi Data (Web Scraping)", Bot], ["Visualisasi Grafik", BarChart2],
+      ["Generator Diagram", Network], ["Pembersihan Data", WandSparkles], ["Solusi Persamaan Matematika", GraduationCap],
+    ],
+  },
+  {
+    title: "ALAT AI",
+    icon: Bot,
+    items: [
+      ["Pemindai Persamaan (OCR Rumus)", Camera], ["Generator Gambar & Visual Ilmiah", Image], ["Buat word doc", FileText],
+      ["Buat ppt", LayoutDashboard], ["Ekspor Presentasi (pptx)", Cloud], ["Situs Web Interaktif", Code2],
+      ["Generator Infografis", WandSparkles], ["Aplikasi Interaktif", Sparkles],
+    ],
+  },
+] as const;
 
 
 
@@ -170,21 +212,30 @@ function ResearchWorkspace() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [appearanceOpen, setAppearanceOpen] = useState(false);
   const [engineOpen, setEngineOpen] = useState(false);
+  const [attachmentOpen, setAttachmentOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [activeSidebarItem, setActiveSidebarItem] = useState("Home / Infinity Canvas");
+  const [activeSession, setActiveSession] = useState<string | null>(null);
   const [engineMode, setEngineMode] = useState<EngineMode>("flash");
   const [theme, setTheme] = useState<Theme>("light");
   const [accent, setAccent] = useState(DEFAULT_ACCENT);
   const [draftAccent, setDraftAccent] = useState(DEFAULT_ACCENT);
   const [query, setQuery] = useState("");
   const [statusIndex, setStatusIndex] = useState(0);
-  const [askMode, setAskMode] = useState<AskMode>("academic");
+  const [askMode, setAskMode] = useState<AskMode>("general");
   const [answer, setAnswer] = useState("");
   const [answering, setAnswering] = useState(false);
   const [answerError, setAnswerError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const attachmentRef = useRef<HTMLDivElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const videoInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("orbis-theme");
-    const savedAccent = window.localStorage.getItem("orbis-accent");
+    const savedTheme = window.localStorage.getItem("infinity-theme");
+    const savedAccent = window.localStorage.getItem("infinity-accent");
     const savedMode = window.localStorage.getItem(ASK_MODE_KEY);
     const nextTheme: Theme = savedTheme === "dark" ? "dark" : "light";
     const nextAccent = savedAccent && isHex(savedAccent) ? savedAccent : DEFAULT_ACCENT;
@@ -195,6 +246,16 @@ function ResearchWorkspace() {
   }, []);
 
   useEffect(() => () => abortRef.current?.abort(), []);
+
+  useEffect(() => {
+    const closeMenus = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!attachmentRef.current?.contains(target)) setAttachmentOpen(false);
+    };
+    document.addEventListener("pointerdown", closeMenus);
+    return () => document.removeEventListener("pointerdown", closeMenus);
+  }, []);
 
   const chooseAskMode = (next: AskMode) => {
     setAskMode(next);
@@ -233,8 +294,8 @@ function ResearchWorkspace() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     document.documentElement.style.setProperty("--user-accent", accent);
     document.documentElement.style.setProperty("--accent-on", accentForeground(accent));
-    window.localStorage.setItem("orbis-theme", theme);
-    window.localStorage.setItem("orbis-accent", accent);
+    window.localStorage.setItem("infinity-theme", theme);
+    window.localStorage.setItem("infinity-accent", accent);
   }, [theme, accent]);
 
   useEffect(() => {
@@ -249,6 +310,16 @@ function ResearchWorkspace() {
 
   const applyAccent = () => {
     if (validAccent) setAccent(draftAccent.toUpperCase());
+  };
+
+  const addModuleTag = (label: string) => {
+    const tag = `[${label}]`;
+    setQuery((value) => value.includes(tag) ? value : `${value.trim()}${value.trim() ? " " : ""}${tag} `);
+  };
+
+  const onAttachment = (label: string) => {
+    setAttachmentOpen(false);
+    addModuleTag(label);
   };
 
   return (
@@ -271,12 +342,12 @@ function ResearchWorkspace() {
         <div className="grid h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="brand-mark grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
-              <Sparkles className="size-5" />
+              <span className="text-xl font-semibold">∞</span>
             </div>
             {sidebarOpen && (
               <div className="min-w-0">
-                <p className="font-display truncate text-lg font-semibold">Orbis</p>
-                <p className="truncate text-xs text-muted-foreground">Research intelligence</p>
+                <p className="font-display truncate text-lg font-semibold">Infinity</p>
+                <p className="truncate text-xs text-muted-foreground">Research Intelligence</p>
               </div>
             )}
           </div>
@@ -311,9 +382,9 @@ function ResearchWorkspace() {
 
           <nav aria-label="Research navigation" className="mt-7 space-y-7">
             <NavGroup title="Workspace" open={sidebarOpen}>
-              <NavItem icon={LayoutDashboard} label="Home / Orbit Canvas" open={sidebarOpen} active to="/" />
-              <NavItem icon={BookMarked} label="Saved papers" open={sidebarOpen} />
-              <NavItem icon={FolderKanban} label="Projects" open={sidebarOpen} />
+              <NavItem icon={LayoutDashboard} label="Home / Infinity Canvas" open={sidebarOpen} active={activeSidebarItem === "Home / Infinity Canvas"} to="/" onClick={setActiveSidebarItem} />
+              <NavItem icon={BookMarked} label="Saved papers" open={sidebarOpen} active={activeSidebarItem === "Saved papers"} onClick={setActiveSidebarItem} />
+              <NavItem icon={FolderKanban} label="Projects" open={sidebarOpen} active={activeSidebarItem === "Projects"} onClick={setActiveSidebarItem} />
               <NavItem icon={Search} label="Search & discovery" open={sidebarOpen} to="/search" />
               <NavItem icon={PenTool} label="Writing workspace" open={sidebarOpen} to="/write" />
               <NavItem icon={Library} label="Source library" open={sidebarOpen} to="/write" />
@@ -327,7 +398,8 @@ function ResearchWorkspace() {
                 {recentSessions.map((session, index) => (
                   <button
                     key={session.title}
-                    className="group w-full rounded-md px-3 py-2.5 text-left transition-colors hover:bg-sidebar-accent"
+                    onClick={() => { setActiveSession(session.title); setQuery(session.title); }}
+                    className={cn("group w-full rounded-md px-3 py-2.5 text-left transition-colors hover:bg-sidebar-accent", activeSession === session.title && "bg-sidebar-accent")}
                   >
                     <span className="flex items-start gap-3">
                       <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", index === 0 ? "bg-primary" : "bg-signal")} />
@@ -404,7 +476,7 @@ function ResearchWorkspace() {
                   <div className="engine-panel absolute right-0 top-12 w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-border bg-popover p-2 text-popover-foreground shadow-xl">
                     <div className="px-3 pb-2 pt-1">
                       <p className="font-display text-sm font-semibold">AI engine control</p>
-                      <p className="text-[11px] text-muted-foreground">Choose how Orbis approaches this session</p>
+                      <p className="text-[11px] text-muted-foreground">Choose how Infinity approaches this session</p>
                     </div>
                     <div className="space-y-1" role="listbox" aria-label="AI engine mode">
                       {engineModes.map((mode) => {
@@ -453,11 +525,18 @@ function ResearchWorkspace() {
                 aria-label="Appearance settings"
                 aria-expanded={appearanceOpen}
               >
-                <Palette />
+                 <Settings />
               </Button>
-              <button className="grid size-9 place-items-center rounded-full bg-foreground text-background" aria-label="Account menu" title="Account menu">
-                <span className="text-xs font-semibold">RP</span>
+              <button onClick={() => { setAccountOpen((value) => !value); setEngineOpen(false); setAppearanceOpen(false); }} className={cn("grid size-9 place-items-center rounded-full bg-foreground text-background ring-offset-background transition-shadow", accountOpen && "ring-2 ring-primary ring-offset-2")} aria-label="Account menu" aria-expanded={accountOpen} title="Account menu">
+                 <span className="text-xs font-semibold">DP</span>
               </button>
+
+              {accountOpen && (
+                <div className="absolute right-0 top-12 w-52 rounded-lg border border-border bg-popover p-2 text-popover-foreground shadow-xl">
+                  <div className="px-3 py-2"><p className="text-sm font-semibold">Infinity profile</p><p className="text-xs text-muted-foreground">Research workspace</p></div>
+                  <Button variant="ghost" className="w-full justify-start" onClick={() => setAccountOpen(false)}><CircleUserRound /> Profile settings</Button>
+                </div>
+              )}
 
               {appearanceOpen && (
                 <div className="appearance-panel absolute right-0 top-12 w-[min(20rem,calc(100vw-2rem))] rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-xl">
@@ -540,9 +619,9 @@ function ResearchWorkspace() {
           <section className="mx-auto flex w-full max-w-6xl flex-col items-center">
             <div className="mb-7 text-center sm:mb-10">
               <p className="mb-3 text-xs font-semibold uppercase text-primary-ink">AI research orbit</p>
-              <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">What are you investigating?</h2>
+              <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">Apa yang sedang Anda teliti?</h2>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
-                Start with a question, paper, or concept. Orbis will trace the evidence around it.
+                Mulai dengan pertanyaan, naskah, atau konsep; Infinity akan melacak bukti ilmiah di sekitarnya.
               </p>
             </div>
 
@@ -563,36 +642,8 @@ function ResearchWorkspace() {
                     </span>
                   </>
                 );
-                if (action.to === "/search") {
-                  return (
-                    <Link key={action.label} to="/search" search={{ q: query.trim() || undefined }} className={cls}>
-                      {inner}
-                    </Link>
-                  );
-                }
-                if (action.to === "/write") {
-                  return (
-                    <Link key={action.label} to="/write" className={cls}>
-                      {inner}
-                    </Link>
-                  );
-                }
-                if (action.to === "/analyze") {
-                  return (
-                    <Link key={action.label} to="/analyze" className={cls}>
-                      {inner}
-                    </Link>
-                  );
-                }
-                if (action.to === "/analysis") {
-                  return (
-                    <Link key={action.label} to="/analysis" className={cls}>
-                      {inner}
-                    </Link>
-                  );
-                }
                 return (
-                  <button key={action.label} type="button" className={cls}>
+                  <button key={action.label} type="button" className={cls} onClick={() => addModuleTag(action.label)}>
                     {inner}
                   </button>
                 );
@@ -607,12 +658,12 @@ function ResearchWorkspace() {
                   else void runGeneralAsk(prompt);
                 }}>
                 <span className="mb-2 grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:mb-4 sm:size-12"><WandSparkles className="size-4 sm:size-5" /></span>
-                <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Orbis</label>
+                <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Infinity</label>
                 <textarea
                   id="research-query"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder={askMode === "general" ? "Explain transformers like I'm new to ML" : "How does sleep affect memory consolidation?"}
+                  placeholder="Tanyakan apa saja pada Infinity..."
                   className="mt-2 min-h-12 w-full resize-none bg-transparent text-center text-[11px] leading-5 outline-none placeholder:text-muted-foreground sm:min-h-20 sm:text-sm"
                 />
 
@@ -642,9 +693,24 @@ function ResearchWorkspace() {
                 </div>
 
                 <div className="mt-2 flex items-center gap-2">
-                  <Button asChild type="button" variant="outline" size="icon" className="size-8 rounded-full bg-background sm:size-9">
-                    <Link to="/search" search={{ q: query.trim() || undefined }} aria-label="Open search & discovery" title="Search & discovery"><Search /></Link>
-                  </Button>
+                  <div className="relative" ref={attachmentRef}>
+                    <Button type="button" variant="outline" size="icon" className={cn("size-8 rounded-full bg-background sm:size-9", attachmentOpen && "border-primary bg-accent")} onClick={() => setAttachmentOpen((value) => !value)} aria-label="Tambahkan lampiran" aria-expanded={attachmentOpen}><Plus /></Button>
+                    {attachmentOpen && (
+                      <div className="absolute bottom-11 left-0 z-30 w-48 rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-xl">
+                        {[
+                          ["Kamera", Camera, cameraInputRef], ["File", Paperclip, fileInputRef], ["Gambar", Image, imageInputRef], ["Video", Video, videoInputRef],
+                        ].map(([label, Icon, inputRef]) => {
+                          const ItemIcon = Icon as typeof Camera;
+                          const targetRef = inputRef as React.RefObject<HTMLInputElement | null>;
+                          return <Button key={label as string} type="button" variant="ghost" className="w-full justify-start" onClick={() => targetRef.current?.click()}><ItemIcon />{label as string}</Button>;
+                        })}
+                      </div>
+                    )}
+                    <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={() => onAttachment("Kamera/OCR")} />
+                    <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx,.txt,.rtf" className="hidden" onChange={() => onAttachment("Dokumen")} />
+                    <input ref={imageInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={() => onAttachment("Gambar")} />
+                    <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={() => onAttachment("Video")} />
+                  </div>
                   <VoiceInput
                     label="Dictate your question"
                     onText={(text) => setQuery((value) => (value ? `${value} ${text}` : text))}
@@ -681,19 +747,39 @@ function ResearchWorkspace() {
 
             <div className="mt-6 grid w-full max-w-3xl gap-3 sm:mt-4 sm:grid-cols-3">
               {[
-                [MessageSquareText, "Compare methods", "Across selected studies"],
-                [Archive, "Build a review", "Organize the evidence"],
-                [BookOpenText, "Read with AI", "Interrogate a paper"],
+                [MessageSquareText, "Bandingkan Metode", "Analisis komparatif antar-studi"],
+                [Archive, "Tinjauan Literatur", "Sintesis & rangkuman otomatis"],
+                [BookOpenText, "Diskusi AI", "Bedah naskah & tanya jawab"],
               ].map(([Icon, title, detail]) => {
                 const ActionIcon = Icon as typeof MessageSquareText;
                 return (
-                  <button key={title as string} className="quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-accent">
+                    <button key={title as string} onClick={() => addModuleTag(title as string)} className="quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-accent">
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary"><ActionIcon className="size-4" /></span>
                     <span className="min-w-0"><span className="block truncate text-xs font-semibold">{title as string}</span><span className="block truncate text-[11px] text-muted-foreground">{detail as string}</span></span>
                   </button>
                 );
               })}
             </div>
+
+            <section className="mt-10 w-full max-w-6xl pb-12">
+              <h3 className="text-center font-display text-2xl font-semibold sm:text-3xl">Alat-alat lain yang mungkin anda butuhkan</h3>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                {moduleGroups.map((group) => {
+                  const GroupIcon = group.icon;
+                  return (
+                    <div key={group.title} className="rounded-lg border border-border bg-card p-4 shadow-sm">
+                      <div className="mb-3 flex items-center gap-2 text-xs font-semibold"><span className="grid size-8 place-items-center rounded-full bg-mint text-teal-ink"><GroupIcon className="size-4" /></span>{group.title}</div>
+                      <div className="space-y-0.5">
+                        {group.items.map(([label, Icon]) => {
+                          const ModuleIcon = Icon;
+                          return <button key={label} type="button" onClick={() => addModuleTag(label)} className="group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left text-xs transition-colors hover:bg-accent"><span className="grid size-7 shrink-0 place-items-center rounded-full bg-mint text-teal-ink"><ModuleIcon className="size-3.5" /></span><span className="leading-4 group-hover:text-accent-foreground">{label}</span></button>;
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
           </section>
         </main>
       </div>
@@ -705,7 +791,7 @@ function NavGroup({ title, open, children }: { title: string; open: boolean; chi
   return <div>{open && <p className="mb-2 px-3 text-[10px] font-semibold uppercase text-muted-foreground">{title}</p>}<div className="space-y-1">{children}</div></div>;
 }
 
-function NavItem({ icon: Icon, label, open, active = false, to }: { icon: typeof Search; label: string; open: boolean; active?: boolean; to?: "/" | "/search" | "/write" | "/analyze" | "/analysis" | "/converter" }) {
+function NavItem({ icon: Icon, label, open, active = false, to, onClick }: { icon: typeof Search; label: string; open: boolean; active?: boolean; to?: "/" | "/search" | "/write" | "/analyze" | "/analysis" | "/converter"; onClick?: (label: string) => void }) {
   const className = cn("flex h-10 w-full items-center rounded-full text-sm transition-colors", open ? "gap-3 px-2" : "justify-center", active ? "bg-mint/70 font-medium text-sidebar-accent-foreground" : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground");
   const inner = (
     <>
@@ -717,10 +803,10 @@ function NavItem({ icon: Icon, label, open, active = false, to }: { icon: typeof
   );
   if (to) {
     return (
-      <Link to={to} title={!open ? label : undefined} className={className} activeProps={{ className: "bg-mint/70 font-medium text-sidebar-accent-foreground" }}>
+      <Link to={to} title={!open ? label : undefined} className={className} activeProps={{ className: "bg-mint/70 font-medium text-sidebar-accent-foreground" }} onClick={() => onClick?.(label)}>
         {inner}
       </Link>
     );
   }
-  return <button title={!open ? label : undefined} className={className}>{inner}</button>;
+  return <button type="button" title={!open ? label : undefined} className={className} onClick={() => onClick?.(label)}>{inner}</button>;
 }

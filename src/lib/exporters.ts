@@ -44,7 +44,7 @@ export async function exportDocx(
     }
     if (block.type === "bullet") {
       return new Paragraph({
-        numbering: { reference: "orbis-bullets", level: 0 },
+        numbering: { reference: "infinity-bullets", level: 0 },
         children: [new TextRun(block.text)],
       });
     }
@@ -70,7 +70,7 @@ export async function exportDocx(
     numbering: {
       config: [
         {
-          reference: "orbis-bullets",
+          reference: "infinity-bullets",
           levels: [
             {
               level: 0,

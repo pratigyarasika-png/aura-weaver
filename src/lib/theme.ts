@@ -30,7 +30,7 @@ export function applyAppearance(theme: "light" | "dark", accent: string) {
 /** Restore the saved appearance on routes that can be opened directly. */
 export function applySavedAppearance() {
   if (typeof window === "undefined") return;
-  const theme = window.localStorage.getItem("orbis-theme") === "dark" ? "dark" : "light";
-  const saved = window.localStorage.getItem("orbis-accent");
+  const theme = window.localStorage.getItem("infinity-theme") === "dark" ? "dark" : "light";
+  const saved = window.localStorage.getItem("infinity-accent");
   applyAppearance(theme, saved && isHex(saved) ? saved : DEFAULT_ACCENT);
 }

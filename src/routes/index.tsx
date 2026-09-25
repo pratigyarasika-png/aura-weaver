@@ -6,6 +6,7 @@ import {
   BookMarked,
   BookOpenText,
   BrainCircuit,
+  Camera,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -18,11 +19,13 @@ import {
   GraduationCap,
   LayoutDashboard,
   Library,
+  Image,
   Menu,
   MessageSquareText,
   Moon,
   Network,
   Palette,
+  Paperclip,
   PanelLeftClose,
   PanelLeftOpen,
   PenTool,
@@ -34,6 +37,7 @@ import {
   Square,
   Sun,
   Terminal,
+  Video,
   WandSparkles,
   X,
 } from "lucide-react";
@@ -71,6 +75,7 @@ type EngineMode = "flash" | "pro" | "expert" | "deep" | "journal";
 type AskMode = "general" | "academic";
 
 const ASK_MODE_KEY = "infinity-ask-mode";
+const LEGACY_ASK_MODE_KEY = "orbis-ask-mode";
 
 const askModes = [
   {
@@ -153,12 +158,49 @@ const hubActions: Array<{
   to?: "/search" | "/write" | "/analyze" | "/analysis" | "/converter";
   withQuery?: boolean;
 }> = [
-  { label: "Find papers", helper: "Search literature", icon: Search, position: "hub-action-top", to: "/search", withQuery: true },
-  { label: "Map concepts", helper: "Connect findings", icon: Network, position: "hub-action-right", to: "/analyze" },
-  { label: "Cite sources", helper: "Build references", icon: Quote, position: "hub-action-bottom", to: "/write" },
-  { label: "Analyze PDF", helper: "Ask documents", icon: FileText, position: "hub-action-left" },
-  { label: "Data Suite", helper: "Code & statistics", icon: Code2, position: "hub-action-nw", to: "/analysis" },
+  { label: "Cari Makalah", helper: "Pencarian jurnal & naskah", icon: Search, position: "hub-action-top", to: "/search", withQuery: true },
+  { label: "Peta Konsep", helper: "Visualisasi keterkaitan studi", icon: Network, position: "hub-action-right", to: "/analyze" },
+  { label: "Manajemen Sitasi", helper: "Kutip & format referensi", icon: Quote, position: "hub-action-bottom", to: "/write" },
+  { label: "Analisis PDF", helper: "Ringkasan & tanya jawab", icon: FileText, position: "hub-action-left" },
 ];
+
+const moduleGroups = [
+  {
+    title: "RISET",
+    icon: Search,
+    items: [
+      ["Pencarian Literatur", Search], ["Pemetaan Konsep", Network], ["Tanya Jawab Dokumen", FileText],
+      ["Google Scholar", GraduationCap], ["Pencarian Akademis Lanjutan", Search],
+    ],
+  },
+  {
+    title: "MENULIS",
+    icon: PenTool,
+    items: [
+      ["Editor Naskah Akademik", PenTool], ["Pembuat Sitasi (APA/MLA)", Quote], ["Tulis Draf Riset", FileText],
+      ["Tulis Laporan", BookOpenText], ["Proposal Riset", MessageSquareText], ["Catatan Diskusi", MessageSquareText],
+      ["Manuskrip Poster", LayoutDashboard], ["Manuskrip LaTeX", Sparkles],
+    ],
+  },
+  {
+    title: "DATA",
+    icon: BarChart2,
+    items: [
+      ["Olah Data & Koding (Python/R)", Code2], ["Rangkaian Uji Statistik", BrainCircuit], ["Statistik Deskriptif", BarChart2],
+      ["Kumpulan Data Online", Archive], ["Ekstraksi Data (Web Scraping)", Bot], ["Visualisasi Grafik", BarChart2],
+      ["Generator Diagram", Network], ["Pembersihan Data", WandSparkles], ["Solusi Persamaan Matematika", GraduationCap],
+    ],
+  },
+  {
+    title: "ALAT AI",
+    icon: Bot,
+    items: [
+      ["Pemindai Persamaan (OCR Rumus)", Camera], ["Generator Gambar & Visual Ilmiah", Image], ["Buat word doc", FileText],
+      ["Buat ppt", LayoutDashboard], ["Ekspor Presentasi (pptx)", Cloud], ["Situs Web Interaktif", Code2],
+      ["Generator Infografis", WandSparkles], ["Aplikasi Interaktif", Sparkles],
+    ],
+  },
+] as const;
 
 
 

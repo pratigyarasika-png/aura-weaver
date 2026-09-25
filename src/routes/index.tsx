@@ -33,6 +33,7 @@ import {
   Quote,
   Search,
   Send,
+  Settings,
   Sparkles,
   Square,
   Sun,
@@ -341,7 +342,7 @@ function ResearchWorkspace() {
         <div className="grid h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="brand-mark grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
-              <Sparkles className="size-5" />
+              <span className="text-xl font-semibold">∞</span>
             </div>
             {sidebarOpen && (
               <div className="min-w-0">
@@ -524,10 +525,10 @@ function ResearchWorkspace() {
                 aria-label="Appearance settings"
                 aria-expanded={appearanceOpen}
               >
-                <Palette />
+                 <Settings />
               </Button>
               <button onClick={() => { setAccountOpen((value) => !value); setEngineOpen(false); setAppearanceOpen(false); }} className={cn("grid size-9 place-items-center rounded-full bg-foreground text-background ring-offset-background transition-shadow", accountOpen && "ring-2 ring-primary ring-offset-2")} aria-label="Account menu" aria-expanded={accountOpen} title="Account menu">
-                <span className="text-xs font-semibold">RP</span>
+                 <span className="text-xs font-semibold">DP</span>
               </button>
 
               {accountOpen && (

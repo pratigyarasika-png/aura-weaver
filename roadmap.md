@@ -7,3 +7,4 @@
 - [ ] Tambahkan modul Equation Scanner bergaya Photomath untuk foto/gambar persamaan.
 - [ ] Pertahankan konsistensi visual halaman analisis dan ikon fungsional.
 - [ ] Verifikasi build, interaksi, desktop, dan mobile.
+- [ ] Samakan tata letak, warna, radius, ikon, dan detail visual secara pixel-perfect dengan referensi terbaru.

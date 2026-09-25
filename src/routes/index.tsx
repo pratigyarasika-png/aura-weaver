@@ -681,20 +681,12 @@ function ResearchWorkspace() {
           </div>
         </header>
 
-        <main className="workspace-grid min-h-[calc(100vh-7.5rem)] overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-          <section className="mx-auto flex w-full max-w-5xl flex-col items-center">
-            <div className="mb-4 text-center sm:mb-5">
-              <p className="mb-1 text-[10px] font-bold uppercase">Research Canvas</p>
-              <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl lg:text-[42px]">Apa yang sedang Anda teliti?</h2>
-              <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                Mulai dengan pertanyaan, naskah, atau konsep; Infinity akan melacak bukti ilmiah di sekitarnya.
-              </p>
-            </div>
-
-            <div className="hub-stage relative grid aspect-square w-full max-w-[44rem] place-items-center">
-              <div className="orbit orbit-outer absolute inset-[6%] rounded-full border border-primary/20" />
-              <div className="orbit orbit-inner absolute inset-[18%] rounded-full border border-border" />
-              <div className="hub-glow absolute inset-[26%] rounded-full" />
+        <main className="workspace-grid min-h-[calc(100vh-7.5rem)] overflow-hidden px-4 pb-10 sm:px-6 lg:px-8">
+          <section className="mx-auto flex w-full max-w-[66rem] flex-col items-center">
+            <div className="hub-stage relative grid aspect-[1.38] w-full place-items-center">
+              <div className="orbit orbit-outer absolute rounded-full border border-primary/20" />
+              <div className="orbit orbit-inner absolute rounded-full border border-border" />
+              <div className="hub-glow absolute rounded-full" />
 
               {hubActions.map((action) => {
                 const Icon = action.icon;
@@ -721,19 +713,19 @@ function ResearchWorkspace() {
 
               })}
 
-              <form className="hub-core relative z-10 flex aspect-square w-[58%] max-w-[22rem] flex-col items-center justify-center rounded-full border border-primary/20 bg-card px-[6%] py-[5%] text-center shadow-2xl" onSubmit={(event) => {
+              <form className="hub-core relative z-10 flex h-[64%] w-[40%] max-w-[26rem] flex-col items-center justify-center rounded-[999px] border border-primary/20 bg-card px-6 py-8 text-center shadow-2xl" onSubmit={(event) => {
                   event.preventDefault();
                   const prompt = query.trim();
                   if (!prompt) return;
                   if (askMode === "academic") navigate({ to: "/search", search: { q: prompt } });
                   else void runGeneralAsk(prompt);
                 }}>
-                <span className="mb-2 grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:mb-3 sm:size-12"><PenTool className="size-4 sm:size-5" /></span>
-                <label htmlFor="research-query" className="font-display text-lg font-bold sm:text-2xl">Ask Infinity</label>
+                <span className="mb-4 grid size-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:size-16"><PenTool className="size-6" /></span>
+                <label htmlFor="research-query" className="font-display text-2xl font-bold sm:text-4xl">Ask Infinity</label>
 
-                <div className="mt-3 flex h-11 w-full items-center rounded-md border-2 border-primary bg-background px-1 shadow-sm">
+                <div className="mt-5 flex h-16 w-full items-center rounded-2xl border-2 border-primary bg-background px-2 shadow-sm">
                   <div className="relative" ref={attachmentRef}>
-                    <Button type="button" variant="ghost" size="icon" className={cn("size-8 rounded-full text-primary", attachmentOpen && "bg-accent")} onClick={() => setAttachmentOpen((value) => !value)} aria-label="Tambahkan lampiran" aria-expanded={attachmentOpen}><Plus /></Button>
+                    <Button type="button" variant="ghost" size="icon" className={cn("size-11 rounded-full text-primary", attachmentOpen && "bg-accent")} onClick={() => setAttachmentOpen((value) => !value)} aria-label="Tambahkan lampiran" aria-expanded={attachmentOpen}><Plus className="size-7" /></Button>
                     {attachmentOpen && (
                       <div className="absolute bottom-11 left-0 z-30 w-48 rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-xl">
                         {[
@@ -757,12 +749,12 @@ function ResearchWorkspace() {
                     onChange={(event) => setQuery(event.target.value)}
                     placeholder="Tanyakan apa saja..."
                     rows={1}
-                    className="h-9 min-w-0 flex-1 resize-none bg-transparent px-2 py-2 text-left text-xs leading-5 outline-none placeholder:text-muted-foreground sm:text-sm"
+                    className="h-12 min-w-0 flex-1 resize-none bg-transparent px-2 py-3 text-left text-sm leading-6 outline-none placeholder:text-muted-foreground"
                   />
-                  <Camera className="mr-2 size-4 shrink-0 text-muted-foreground" />
+                  <Camera className="mr-2 size-5 shrink-0 text-muted-foreground" />
                 </div>
 
-                <div className="mode-toggle mt-3 flex items-center gap-0.5 rounded-full bg-muted p-0.5" role="radiogroup" aria-label="Assistant mode">
+                <div className="mode-toggle mt-5 flex items-center gap-1 rounded-full bg-muted p-1" role="radiogroup" aria-label="Assistant mode">
                   {askModes.map((mode) => {
                     const ModeIcon = mode.icon;
                     const selected = askMode === mode.id;
@@ -775,7 +767,7 @@ function ResearchWorkspace() {
                         title={`${mode.label} — ${mode.hint}`}
                         onClick={() => chooseAskMode(mode.id)}
                         className={cn(
-                          "flex items-center gap-1.5 rounded-full px-2 py-1 text-[10px] font-semibold transition-colors sm:px-2.5 sm:text-[11px]",
+                          "flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition-colors sm:px-4 sm:text-sm",
                           selected ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted",
                         )}
                       >
@@ -787,8 +779,8 @@ function ResearchWorkspace() {
                   })}
                 </div>
 
-                <div className="mt-2 flex items-center gap-2">
-                  <Button type="button" variant="outline" size="icon" className="size-9 rounded-full bg-background" onClick={() => addModuleTag("Pencarian")} aria-label="Cari"><Search /></Button>
+                <div className="mt-4 flex items-center gap-3">
+                  <Button type="button" variant="outline" size="icon" className="size-12 rounded-full bg-background" onClick={() => addModuleTag("Pencarian")} aria-label="Cari"><Search className="size-5" /></Button>
                   <VoiceInput
                     label="Dictate your question"
                     onText={(text) => setQuery((value) => (value ? `${value} ${text}` : text))}
@@ -798,7 +790,7 @@ function ResearchWorkspace() {
                       <Square className="size-3.5" /><span className="hidden sm:inline">Stop</span>
                     </Button>
                   ) : (
-                    <Button type="submit" className="h-9 rounded-full px-4 shadow-lg">
+                    <Button type="submit" className="h-12 rounded-full px-6 text-base shadow-lg">
                       <span>{askMode === "general" ? "Ask" : "Explore"}</span><ChevronRight />
                     </Button>
                   )}
@@ -823,34 +815,18 @@ function ResearchWorkspace() {
             )}
 
 
-            <div className="mt-3 grid w-full max-w-5xl gap-3 sm:grid-cols-3">
-              {[
-                [MessageSquareText, "Bandingkan Metode", "Analisis komparatif antar-studi"],
-                [Archive, "Tinjauan Literatur", "Sintesis & rangkuman otomatis"],
-                [BookOpenText, "Diskusi AI", "Bedah naskah & tanya jawab"],
-              ].map(([Icon, title, detail]) => {
-                const ActionIcon = Icon as typeof MessageSquareText;
-                return (
-                    <button key={title as string} type="button" onClick={() => addModuleTag(title as string)} aria-pressed={activeModule === title} className={cn("quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left shadow-sm transition-colors hover:border-primary/40 hover:bg-accent", activeModule === title && "border-primary bg-accent ring-2 ring-primary/20")}>
-                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary"><ActionIcon className="size-4" /></span>
-                    <span className="min-w-0"><span className="block truncate text-xs font-semibold">{title as string}</span><span className="block truncate text-[11px] text-muted-foreground">{detail as string}</span></span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <section className="mt-7 w-full max-w-5xl pb-12">
-              <h3 className="text-center font-display text-2xl font-bold sm:text-3xl">Alat-alat lain yang mungkin anda butuhkan</h3>
-              <div className="mt-5 grid items-start gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="w-full pb-12">
+              <h2 className="text-center font-display text-3xl font-bold sm:text-4xl">Alat-alat lain yang mungkin anda butuhkan</h2>
+              <div className="mt-8 grid items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {moduleGroups.map((group) => {
                   const GroupIcon = group.icon;
                   return (
-                    <div key={group.title} className="min-h-full rounded-md border border-border bg-card p-4 shadow-sm">
-                      <div className="mb-3 flex items-center gap-2 text-xs font-semibold"><span className="grid size-8 place-items-center rounded-full bg-mint text-teal-ink"><GroupIcon className="size-4" /></span>{group.title}</div>
-                      <div className="space-y-0.5">
+                    <div key={group.title} className="min-h-[27rem] rounded-md border border-border bg-card p-5 shadow-sm">
+                      <div className="mb-4 flex items-center gap-3 text-sm font-semibold"><span className="grid size-9 place-items-center rounded-full bg-mint text-teal-ink"><GroupIcon className="size-4" /></span>{group.title}</div>
+                      <div className="space-y-1">
                         {group.items.map(([label, Icon]) => {
                           const ModuleIcon = Icon;
-                          return <button key={label} type="button" onClick={() => addModuleTag(label)} aria-pressed={activeModule === label} className={cn("group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left text-xs transition-colors hover:bg-accent", activeModule === label && "bg-accent font-semibold text-accent-foreground ring-1 ring-primary/30")}><span className={cn("grid size-7 shrink-0 place-items-center rounded-full bg-mint text-teal-ink", activeModule === label && "bg-primary text-primary-foreground")}><ModuleIcon className="size-3.5" /></span><span className="leading-4 group-hover:text-accent-foreground">{label}</span></button>;
+                          return <button key={label} type="button" onClick={() => addModuleTag(label)} aria-pressed={activeModule === label} className={cn("group flex w-full items-center gap-3 rounded-md px-1 py-2 text-left text-sm transition-colors hover:bg-accent", activeModule === label && "bg-accent font-semibold text-accent-foreground ring-1 ring-primary/30")}><span className={cn("grid size-8 shrink-0 place-items-center rounded-full bg-mint text-teal-ink", activeModule === label && "bg-primary text-primary-foreground")}><ModuleIcon className="size-4" /></span><span className="leading-5 group-hover:text-accent-foreground">{label}</span></button>;
                         })}
                       </div>
                     </div>

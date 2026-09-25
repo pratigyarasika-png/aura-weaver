@@ -24,7 +24,6 @@ import {
   MessageSquareText,
   Moon,
   Network,
-  Palette,
   Paperclip,
   PanelLeftClose,
   PanelLeftOpen,
@@ -216,6 +215,7 @@ function ResearchWorkspace() {
   const [accountOpen, setAccountOpen] = useState(false);
   const [activeSidebarItem, setActiveSidebarItem] = useState("Home / Infinity Canvas");
   const [activeSession, setActiveSession] = useState<string | null>(null);
+  const [activeModule, setActiveModule] = useState<string | null>(null);
   const [engineMode, setEngineMode] = useState<EngineMode>("flash");
   const [theme, setTheme] = useState<Theme>("light");
   const [accent, setAccent] = useState(DEFAULT_ACCENT);
@@ -232,6 +232,7 @@ function ResearchWorkspace() {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
   const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const queryInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("infinity-theme");
@@ -314,7 +315,9 @@ function ResearchWorkspace() {
 
   const addModuleTag = (label: string) => {
     const tag = `[${label}]`;
+    setActiveModule(label);
     setQuery((value) => value.includes(tag) ? value : `${value.trim()}${value.trim() ? " " : ""}${tag} `);
+    window.requestAnimationFrame(() => queryInputRef.current?.focus());
   };
 
   const onAttachment = (label: string) => {
@@ -632,7 +635,12 @@ function ResearchWorkspace() {
 
               {hubActions.map((action) => {
                 const Icon = action.icon;
-                const cls = cn("hub-action group absolute flex items-center gap-2.5 rounded-full border border-border bg-card p-2 pr-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md", action.position);
+                const selected = activeModule === action.label;
+                const cls = cn(
+                  "hub-action group absolute flex items-center gap-2.5 rounded-full border border-border bg-card p-2 pr-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md",
+                  action.position,
+                  selected && "border-primary bg-accent ring-2 ring-primary/20",
+                );
                 const inner = (
                   <>
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-mint text-teal-ink transition-colors group-hover:bg-teal-deep group-hover:text-teal-deep-foreground"><Icon className="size-4" /></span>
@@ -643,7 +651,7 @@ function ResearchWorkspace() {
                   </>
                 );
                 return (
-                  <button key={action.label} type="button" className={cls} onClick={() => addModuleTag(action.label)}>
+                  <button key={action.label} type="button" className={cls} onClick={() => addModuleTag(action.label)} aria-pressed={selected}>
                     {inner}
                   </button>
                 );
@@ -661,6 +669,7 @@ function ResearchWorkspace() {
                 <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Infinity</label>
                 <textarea
                   id="research-query"
+                  ref={queryInputRef}
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Tanyakan apa saja pada Infinity..."
@@ -753,7 +762,7 @@ function ResearchWorkspace() {
               ].map(([Icon, title, detail]) => {
                 const ActionIcon = Icon as typeof MessageSquareText;
                 return (
-                    <button key={title as string} onClick={() => addModuleTag(title as string)} className="quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-accent">
+                    <button key={title as string} type="button" onClick={() => addModuleTag(title as string)} aria-pressed={activeModule === title} className={cn("quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-accent", activeModule === title && "border-primary bg-accent ring-2 ring-primary/20")}>
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary"><ActionIcon className="size-4" /></span>
                     <span className="min-w-0"><span className="block truncate text-xs font-semibold">{title as string}</span><span className="block truncate text-[11px] text-muted-foreground">{detail as string}</span></span>
                   </button>
@@ -772,7 +781,7 @@ function ResearchWorkspace() {
                       <div className="space-y-0.5">
                         {group.items.map(([label, Icon]) => {
                           const ModuleIcon = Icon;
-                          return <button key={label} type="button" onClick={() => addModuleTag(label)} className="group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left text-xs transition-colors hover:bg-accent"><span className="grid size-7 shrink-0 place-items-center rounded-full bg-mint text-teal-ink"><ModuleIcon className="size-3.5" /></span><span className="leading-4 group-hover:text-accent-foreground">{label}</span></button>;
+                          return <button key={label} type="button" onClick={() => addModuleTag(label)} aria-pressed={activeModule === label} className={cn("group flex w-full items-center gap-2 rounded-md px-1 py-1.5 text-left text-xs transition-colors hover:bg-accent", activeModule === label && "bg-accent font-semibold text-accent-foreground ring-1 ring-primary/30")}><span className={cn("grid size-7 shrink-0 place-items-center rounded-full bg-mint text-teal-ink", activeModule === label && "bg-primary text-primary-foreground")}><ModuleIcon className="size-3.5" /></span><span className="leading-4 group-hover:text-accent-foreground">{label}</span></button>;
                         })}
                       </div>
                     </div>

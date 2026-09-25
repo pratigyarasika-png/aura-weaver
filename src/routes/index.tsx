@@ -383,11 +383,11 @@ function ResearchWorkspace() {
       <aside
         className={cn(
           "sidebar fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-sidebar transition-[width,transform] duration-300",
-          sidebarOpen ? "w-72" : "w-[76px]",
+          sidebarOpen ? "w-64" : "w-[76px]",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
-        <div className="grid h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
+        <div className="grid h-[72px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="brand-mark grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
               <span className="text-xl font-semibold">∞</span>
@@ -478,25 +478,17 @@ function ResearchWorkspace() {
         </div>
       </aside>
 
-      <div className={cn("min-w-0 transition-[padding] duration-300", sidebarOpen ? "lg:pl-72" : "lg:pl-[76px]")}>
-        <header className="sticky top-0 z-30 border-b border-border/80 bg-background/90 backdrop-blur-xl">
-          <div className="grid h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className={cn("min-w-0 transition-[padding] duration-300", sidebarOpen ? "lg:pl-64" : "lg:pl-[76px]")}>
+        <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
+          <div className="grid h-[72px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6">
             <Button variant="ghost" size="icon" className="rounded-full lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
               <Menu />
             </Button>
-            <div className="flex min-w-0 items-center gap-6">
+            <div className="flex min-w-0 items-center">
               <div className="min-w-0">
-                <h1 className="font-display truncate text-base font-semibold sm:text-lg">Research canvas</h1>
-                <p className="hidden truncate text-xs text-muted-foreground sm:block">Turn questions into evidence</p>
+                <h1 className="font-display truncate text-base font-bold sm:text-lg">Research Canvas</h1>
+                <p className="hidden max-w-xl truncate text-[11px] text-muted-foreground sm:block">Satu ruang kerja untuk menelusuri literatur, memahami dokumen, menulis, dan menganalisis data.</p>
               </div>
-              <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
-                <Link to="/search" search={{ q: undefined }} className="rounded-full px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-accent text-accent-foreground" }}>
-                  Search
-                </Link>
-                <Link to="/write" className="rounded-full px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" activeProps={{ className: "bg-accent text-accent-foreground" }}>
-                  Writing workspace
-                </Link>
-              </nav>
             </div>
 
             <div className="relative ml-auto flex shrink-0 items-center justify-end gap-2">
@@ -654,12 +646,12 @@ function ResearchWorkspace() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-signal opacity-50" />
                 <span className="relative inline-flex size-2.5 rounded-full bg-signal" />
               </span>
-              <span className="shrink-0 text-[11px] font-semibold uppercase text-muted-foreground">Live activity</span>
+              <span className="shrink-0 text-[11px] font-bold uppercase">Aktivitas langsung:</span>
               <span className="truncate text-xs font-medium" aria-live="polite">{statuses[statusIndex]}</span>
                <ChevronRight className={cn("size-3.5 shrink-0 transition-transform", activityOpen && "rotate-90")} />
              </button>
-             <button type="button" onClick={() => setActivityOpen((value) => !value)} className="hidden items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted sm:flex">
-              <span>3 tasks</span><ChevronRight className="size-3.5" />
+             <button type="button" onClick={() => setActivityOpen((value) => !value)} className="hidden items-center gap-1 rounded-md px-2 py-1 text-xs text-primary transition-colors hover:bg-muted sm:flex" aria-label="Buka aktivitas langsung">
+              <ChevronRight className="size-7" />
              </button>
 
              {activityOpen && (
@@ -689,26 +681,26 @@ function ResearchWorkspace() {
           </div>
         </header>
 
-        <main className="workspace-grid min-h-[calc(100vh-7.5rem)] overflow-hidden px-4 py-8 sm:px-8 sm:py-10 lg:px-12">
-          <section className="mx-auto flex w-full max-w-6xl flex-col items-center">
-            <div className="mb-7 text-center sm:mb-10">
-              <p className="mb-3 text-xs font-semibold uppercase text-primary-ink">AI research orbit</p>
-              <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">Apa yang sedang Anda teliti?</h2>
-              <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
+        <main className="workspace-grid min-h-[calc(100vh-7rem)] overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
+          <section className="mx-auto flex w-full max-w-5xl flex-col items-center">
+            <div className="mb-4 text-center sm:mb-5">
+              <p className="mb-1 text-[10px] font-bold uppercase">Research Canvas</p>
+              <h2 className="font-display text-3xl font-bold leading-tight sm:text-4xl lg:text-[42px]">Apa yang sedang Anda teliti?</h2>
+              <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
                 Mulai dengan pertanyaan, naskah, atau konsep; Infinity akan melacak bukti ilmiah di sekitarnya.
               </p>
             </div>
 
-            <div className="hub-stage relative grid aspect-square w-full max-w-[42rem] place-items-center">
-              <div className="orbit orbit-outer absolute inset-[5%] rounded-full border border-dashed border-primary/25" />
-              <div className="orbit orbit-inner absolute inset-[19%] rounded-full border border-border" />
-              <div className="hub-glow absolute inset-[27%] rounded-full" />
+            <div className="hub-stage relative grid aspect-square w-full max-w-[38rem] place-items-center">
+              <div className="orbit orbit-outer absolute inset-[6%] rounded-full border border-primary/20" />
+              <div className="orbit orbit-inner absolute inset-[18%] rounded-full border border-border" />
+              <div className="hub-glow absolute inset-[26%] rounded-full" />
 
               {hubActions.map((action) => {
                 const Icon = action.icon;
                 const selected = activeModule === action.label;
                 const cls = cn(
-                  "hub-action group absolute flex items-center gap-2.5 rounded-full border border-border bg-card p-2 pr-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md",
+                  "hub-action group absolute flex items-center gap-2.5 rounded-full border border-border bg-card p-2 pr-4 text-left shadow-md transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg",
                   action.position,
                   selected && "border-primary bg-accent ring-2 ring-primary/20",
                 );
@@ -729,25 +721,48 @@ function ResearchWorkspace() {
 
               })}
 
-              <form className="hub-core relative z-10 flex aspect-square w-[64%] max-w-[25rem] flex-col items-center justify-center rounded-full border border-primary/25 bg-card p-[8%] text-center shadow-2xl sm:w-[60%] sm:p-[8%]" onSubmit={(event) => {
+              <form className="hub-core relative z-10 flex aspect-square w-[62%] max-w-[23rem] flex-col items-center justify-center rounded-full border border-primary/20 bg-card px-[7%] py-[6%] text-center shadow-2xl sm:w-[58%]" onSubmit={(event) => {
                   event.preventDefault();
                   const prompt = query.trim();
                   if (!prompt) return;
                   if (askMode === "academic") navigate({ to: "/search", search: { q: prompt } });
                   else void runGeneralAsk(prompt);
                 }}>
-                <span className="mb-2 grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:mb-4 sm:size-12"><WandSparkles className="size-4 sm:size-5" /></span>
-                <label htmlFor="research-query" className="font-display text-sm font-semibold sm:text-lg">Ask Infinity</label>
-                <textarea
-                  id="research-query"
-                  ref={queryInputRef}
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Tanyakan apa saja pada Infinity..."
-                  className="mt-2 min-h-12 w-full resize-none bg-transparent text-center text-[11px] leading-5 outline-none placeholder:text-muted-foreground sm:min-h-20 sm:text-sm"
-                />
+                <span className="mb-2 grid size-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg sm:mb-3 sm:size-12"><PenTool className="size-4 sm:size-5" /></span>
+                <label htmlFor="research-query" className="font-display text-lg font-bold sm:text-2xl">Ask Infinity</label>
 
-                <div className="mode-toggle mt-1 flex items-center gap-0.5 rounded-full border border-border bg-background p-0.5" role="radiogroup" aria-label="Assistant mode">
+                <div className="mt-3 flex h-11 w-full items-center rounded-md border-2 border-primary bg-background px-1 shadow-sm">
+                  <div className="relative" ref={attachmentRef}>
+                    <Button type="button" variant="ghost" size="icon" className={cn("size-8 rounded-full text-primary", attachmentOpen && "bg-accent")} onClick={() => setAttachmentOpen((value) => !value)} aria-label="Tambahkan lampiran" aria-expanded={attachmentOpen}><Plus /></Button>
+                    {attachmentOpen && (
+                      <div className="absolute bottom-11 left-0 z-30 w-48 rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-xl">
+                        {[
+                          ["Kamera", Camera, cameraInputRef], ["File", Paperclip, fileInputRef], ["Gambar", Image, imageInputRef], ["Video", Video, videoInputRef],
+                        ].map(([label, Icon, inputRef]) => {
+                          const ItemIcon = Icon as typeof Camera;
+                          const targetRef = inputRef as React.RefObject<HTMLInputElement | null>;
+                          return <Button key={label as string} type="button" variant="ghost" className="w-full justify-start" onClick={() => targetRef.current?.click()}><ItemIcon />{label as string}</Button>;
+                        })}
+                      </div>
+                    )}
+                    <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={() => onAttachment("Kamera/OCR")} />
+                    <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx,.txt,.rtf" className="hidden" onChange={() => onAttachment("Dokumen")} />
+                    <input ref={imageInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={() => onAttachment("Gambar")} />
+                    <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={() => onAttachment("Video")} />
+                  </div>
+                  <textarea
+                    id="research-query"
+                    ref={queryInputRef}
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Tanyakan apa saja..."
+                    rows={1}
+                    className="h-9 min-w-0 flex-1 resize-none bg-transparent px-2 py-2 text-left text-xs leading-5 outline-none placeholder:text-muted-foreground sm:text-sm"
+                  />
+                  <Camera className="mr-2 size-4 shrink-0 text-muted-foreground" />
+                </div>
+
+                <div className="mode-toggle mt-3 flex items-center gap-0.5 rounded-full bg-muted p-0.5" role="radiogroup" aria-label="Assistant mode">
                   {askModes.map((mode) => {
                     const ModeIcon = mode.icon;
                     const selected = askMode === mode.id;
@@ -773,24 +788,7 @@ function ResearchWorkspace() {
                 </div>
 
                 <div className="mt-2 flex items-center gap-2">
-                  <div className="relative" ref={attachmentRef}>
-                    <Button type="button" variant="outline" size="icon" className={cn("size-8 rounded-full bg-background sm:size-9", attachmentOpen && "border-primary bg-accent")} onClick={() => setAttachmentOpen((value) => !value)} aria-label="Tambahkan lampiran" aria-expanded={attachmentOpen}><Plus /></Button>
-                    {attachmentOpen && (
-                      <div className="absolute bottom-11 left-0 z-30 w-48 rounded-lg border border-border bg-popover p-1.5 text-popover-foreground shadow-xl">
-                        {[
-                          ["Kamera", Camera, cameraInputRef], ["File", Paperclip, fileInputRef], ["Gambar", Image, imageInputRef], ["Video", Video, videoInputRef],
-                        ].map(([label, Icon, inputRef]) => {
-                          const ItemIcon = Icon as typeof Camera;
-                          const targetRef = inputRef as React.RefObject<HTMLInputElement | null>;
-                          return <Button key={label as string} type="button" variant="ghost" className="w-full justify-start" onClick={() => targetRef.current?.click()}><ItemIcon />{label as string}</Button>;
-                        })}
-                      </div>
-                    )}
-                    <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={() => onAttachment("Kamera/OCR")} />
-                    <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx,.txt,.rtf" className="hidden" onChange={() => onAttachment("Dokumen")} />
-                    <input ref={imageInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={() => onAttachment("Gambar")} />
-                    <input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={() => onAttachment("Video")} />
-                  </div>
+                  <Button type="button" variant="outline" size="icon" className="size-9 rounded-full bg-background" onClick={() => addModuleTag("Pencarian")} aria-label="Cari"><Search /></Button>
                   <VoiceInput
                     label="Dictate your question"
                     onText={(text) => setQuery((value) => (value ? `${value} ${text}` : text))}
@@ -800,8 +798,8 @@ function ResearchWorkspace() {
                       <Square className="size-3.5" /><span className="hidden sm:inline">Stop</span>
                     </Button>
                   ) : (
-                    <Button type="submit" className="h-8 rounded-full px-3 shadow-lg sm:h-9 sm:px-4" disabled={!query.trim()}>
-                      <span className="hidden sm:inline">{askMode === "general" ? "Ask" : "Explore"}</span><Send />
+                    <Button type="submit" className="h-9 rounded-full px-4 shadow-lg" disabled={!query.trim()}>
+                      <span>{askMode === "general" ? "Ask" : "Explore"}</span><ChevronRight />
                     </Button>
                   )}
                 </div>
@@ -825,7 +823,7 @@ function ResearchWorkspace() {
             )}
 
 
-            <div className="mt-6 grid w-full max-w-3xl gap-3 sm:mt-4 sm:grid-cols-3">
+            <div className="mt-3 grid w-full max-w-5xl gap-3 sm:grid-cols-3">
               {[
                 [MessageSquareText, "Bandingkan Metode", "Analisis komparatif antar-studi"],
                 [Archive, "Tinjauan Literatur", "Sintesis & rangkuman otomatis"],
@@ -833,7 +831,7 @@ function ResearchWorkspace() {
               ].map(([Icon, title, detail]) => {
                 const ActionIcon = Icon as typeof MessageSquareText;
                 return (
-                    <button key={title as string} type="button" onClick={() => addModuleTag(title as string)} aria-pressed={activeModule === title} className={cn("quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-accent", activeModule === title && "border-primary bg-accent ring-2 ring-primary/20")}>
+                    <button key={title as string} type="button" onClick={() => addModuleTag(title as string)} aria-pressed={activeModule === title} className={cn("quick-action flex min-w-0 items-center gap-3 rounded-md border border-border bg-card px-4 py-3 text-left shadow-sm transition-colors hover:border-primary/40 hover:bg-accent", activeModule === title && "border-primary bg-accent ring-2 ring-primary/20")}>
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary"><ActionIcon className="size-4" /></span>
                     <span className="min-w-0"><span className="block truncate text-xs font-semibold">{title as string}</span><span className="block truncate text-[11px] text-muted-foreground">{detail as string}</span></span>
                   </button>
@@ -841,13 +839,13 @@ function ResearchWorkspace() {
               })}
             </div>
 
-            <section className="mt-10 w-full max-w-6xl pb-12">
-              <h3 className="text-center font-display text-2xl font-semibold sm:text-3xl">Alat-alat lain yang mungkin anda butuhkan</h3>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="mt-7 w-full max-w-5xl pb-12">
+              <h3 className="text-center font-display text-2xl font-bold sm:text-3xl">Alat-alat lain yang mungkin anda butuhkan</h3>
+              <div className="mt-5 grid items-start gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {moduleGroups.map((group) => {
                   const GroupIcon = group.icon;
                   return (
-                    <div key={group.title} className="rounded-lg border border-border bg-card p-4 shadow-sm">
+                    <div key={group.title} className="min-h-full rounded-md border border-border bg-card p-4 shadow-sm">
                       <div className="mb-3 flex items-center gap-2 text-xs font-semibold"><span className="grid size-8 place-items-center rounded-full bg-mint text-teal-ink"><GroupIcon className="size-4" /></span>{group.title}</div>
                       <div className="space-y-0.5">
                         {group.items.map(([label, Icon]) => {

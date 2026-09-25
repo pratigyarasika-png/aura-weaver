@@ -214,7 +214,7 @@
 .mode-toggle { width: fit-content; max-width: 100%; align-self: center; }
 
 @media (min-width: 768px) {
-  .hub-stage { max-width: 38rem; }
+  .hub-stage { max-width: 44rem; }
   .orbit-outer { inset: 6%; }
   .orbit-inner { inset: 18%; }
   .hub-glow { inset: 26%; }

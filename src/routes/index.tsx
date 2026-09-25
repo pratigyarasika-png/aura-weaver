@@ -383,11 +383,11 @@ function ResearchWorkspace() {
       <aside
         className={cn(
           "sidebar fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-sidebar transition-[width,transform] duration-300",
-          sidebarOpen ? "w-64" : "w-[76px]",
+          sidebarOpen ? "w-[17rem]" : "w-[76px]",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
-        <div className="grid h-[72px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
+        <div className="grid h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border px-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="brand-mark grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
               <span className="text-xl font-semibold">∞</span>
@@ -478,9 +478,9 @@ function ResearchWorkspace() {
         </div>
       </aside>
 
-      <div className={cn("min-w-0 transition-[padding] duration-300", sidebarOpen ? "lg:pl-64" : "lg:pl-[76px]")}>
+      <div className={cn("min-w-0 transition-[padding] duration-300", sidebarOpen ? "lg:pl-[17rem]" : "lg:pl-[76px]")}>
         <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
-          <div className="grid h-[72px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6">
+          <div className="grid h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6">
             <Button variant="ghost" size="icon" className="rounded-full lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
               <Menu />
             </Button>
@@ -681,7 +681,7 @@ function ResearchWorkspace() {
           </div>
         </header>
 
-        <main className="workspace-grid min-h-[calc(100vh-7rem)] overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
+        <main className="workspace-grid min-h-[calc(100vh-7.5rem)] overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
           <section className="mx-auto flex w-full max-w-5xl flex-col items-center">
             <div className="mb-4 text-center sm:mb-5">
               <p className="mb-1 text-[10px] font-bold uppercase">Research Canvas</p>
@@ -691,7 +691,7 @@ function ResearchWorkspace() {
               </p>
             </div>
 
-            <div className="hub-stage relative grid aspect-square w-full max-w-[38rem] place-items-center">
+            <div className="hub-stage relative grid aspect-square w-full max-w-[44rem] place-items-center">
               <div className="orbit orbit-outer absolute inset-[6%] rounded-full border border-primary/20" />
               <div className="orbit orbit-inner absolute inset-[18%] rounded-full border border-border" />
               <div className="hub-glow absolute inset-[26%] rounded-full" />
@@ -721,7 +721,7 @@ function ResearchWorkspace() {
 
               })}
 
-              <form className="hub-core relative z-10 flex aspect-square w-[62%] max-w-[23rem] flex-col items-center justify-center rounded-full border border-primary/20 bg-card px-[7%] py-[6%] text-center shadow-2xl sm:w-[58%]" onSubmit={(event) => {
+              <form className="hub-core relative z-10 flex aspect-square w-[58%] max-w-[22rem] flex-col items-center justify-center rounded-full border border-primary/20 bg-card px-[6%] py-[5%] text-center shadow-2xl" onSubmit={(event) => {
                   event.preventDefault();
                   const prompt = query.trim();
                   if (!prompt) return;
@@ -798,7 +798,7 @@ function ResearchWorkspace() {
                       <Square className="size-3.5" /><span className="hidden sm:inline">Stop</span>
                     </Button>
                   ) : (
-                    <Button type="submit" className="h-9 rounded-full px-4 shadow-lg" disabled={!query.trim()}>
+                    <Button type="submit" className="h-9 rounded-full px-4 shadow-lg">
                       <span>{askMode === "general" ? "Ask" : "Explore"}</span><ChevronRight />
                     </Button>
                   )}

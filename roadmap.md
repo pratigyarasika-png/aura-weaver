@@ -7,3 +7,5 @@
 - [x] Tambahkan tag modul dari node, kartu, dan daftar alat ke kotak pertanyaan.
 - [x] Aktifkan menu samping, model AI, pengaturan, profil, dan sesi terbaru.
 - [x] Verifikasi build, interaksi, desktop, dan mobile.
+- [x] Tambahkan panel Live Activity dengan progres dan log pekerjaan.
+- [x] Ganti avatar DP dan favicon dengan logo Infinity baru.

@@ -45,6 +45,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { VoiceInput } from "@/components/VoiceInput";
 import { Button } from "@/components/ui/button";
+import profileLogo from "@/assets/infinity-profile-logo.jpeg.asset.json";
 import { streamAssist } from "@/lib/assist-client";
 import { DEFAULT_ACCENT, accentForeground, accentPresets, isHex } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -149,6 +150,45 @@ const recentSessions = [
   { title: "Quantum sensing review", time: "Mon" },
 ];
 
+const liveTasks = [
+  {
+    id: "papers",
+    label: "Menelusuri jurnal",
+    detail: "Menyaring 248 hasil menjadi sumber paling relevan",
+    progress: 72,
+    log: [
+      "> query: neural plasticity stroke recovery",
+      "> source: Crossref · PubMed · arXiv",
+      "> ranked 248 papers by relevance",
+      "> extracting abstracts and DOI metadata…",
+    ],
+  },
+  {
+    id: "citations",
+    label: "Menyusun sitasi",
+    detail: "Menormalkan metadata ke format APA 7",
+    progress: 48,
+    log: [
+      "> style: APA 7th edition",
+      "> validating 36 author records",
+      "> resolving 4 incomplete DOI entries",
+      "> building bibliography…",
+    ],
+  },
+  {
+    id: "pdf",
+    label: "Menganalisis PDF",
+    detail: "Membaca metode, temuan, dan keterbatasan",
+    progress: 31,
+    log: [
+      "> document: research-paper.pdf",
+      "> sections detected: 8",
+      "> parsing tables and figures",
+      "> synthesizing key findings…",
+    ],
+  },
+] as const;
+
 const hubActions: Array<{
   label: string;
   helper: string;
@@ -213,6 +253,8 @@ function ResearchWorkspace() {
   const [engineOpen, setEngineOpen] = useState(false);
   const [attachmentOpen, setAttachmentOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
+  const [activeTask, setActiveTask] = useState<(typeof liveTasks)[number]["id"]>("papers");
   const [activeSidebarItem, setActiveSidebarItem] = useState("Home / Infinity Canvas");
   const [activeSession, setActiveSession] = useState<string | null>(null);
   const [activeModule, setActiveModule] = useState<string | null>(null);
@@ -228,6 +270,7 @@ function ResearchWorkspace() {
   const [answerError, setAnswerError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const attachmentRef = useRef<HTMLDivElement | null>(null);
+  const activityRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
@@ -253,6 +296,7 @@ function ResearchWorkspace() {
       const target = event.target;
       if (!(target instanceof Node)) return;
       if (!attachmentRef.current?.contains(target)) setAttachmentOpen(false);
+      if (!activityRef.current?.contains(target)) setActivityOpen(false);
     };
     document.addEventListener("pointerdown", closeMenus);
     return () => document.removeEventListener("pointerdown", closeMenus);
@@ -307,6 +351,7 @@ function ResearchWorkspace() {
   const statuses = ["Scraping papers…", "Generating citations…", "Synthesizing PDF…"];
   const validAccent = /^#[0-9A-Fa-f]{6}$/.test(draftAccent);
   const activeEngine = engineModes.find((mode) => mode.id === engineMode) ?? defaultEngine;
+  const selectedTask = liveTasks.find((task) => task.id === activeTask) ?? liveTasks[0];
   const ActiveEngineIcon = activeEngine.icon;
 
   const applyAccent = () => {
@@ -530,8 +575,8 @@ function ResearchWorkspace() {
               >
                  <Settings />
               </Button>
-              <button onClick={() => { setAccountOpen((value) => !value); setEngineOpen(false); setAppearanceOpen(false); }} className={cn("grid size-9 place-items-center rounded-full bg-foreground text-background ring-offset-background transition-shadow", accountOpen && "ring-2 ring-primary ring-offset-2")} aria-label="Account menu" aria-expanded={accountOpen} title="Account menu">
-                 <span className="text-xs font-semibold">DP</span>
+              <button onClick={() => { setAccountOpen((value) => !value); setEngineOpen(false); setAppearanceOpen(false); }} className={cn("grid size-10 overflow-hidden rounded-full border border-border bg-background ring-offset-background transition-shadow", accountOpen && "ring-2 ring-primary ring-offset-2")} aria-label="Account menu" aria-expanded={accountOpen} title="Account menu">
+                 <img src={profileLogo.url} alt="Infinity profile logo" className="size-full object-cover" />
               </button>
 
               {accountOpen && (
@@ -603,18 +648,44 @@ function ResearchWorkspace() {
             </div>
           </div>
 
-          <div className="activity-bar flex min-h-10 items-center justify-between gap-4 border-t border-border/60 px-4 sm:px-6 lg:px-8">
-            <div className="flex min-w-0 items-center gap-2.5">
+           <div ref={activityRef} className="activity-bar relative flex min-h-10 items-center justify-between gap-4 border-t border-border/60 px-4 sm:px-6 lg:px-8">
+             <button type="button" onClick={() => setActivityOpen((value) => !value)} aria-expanded={activityOpen} aria-controls="live-activity-panel" className={cn("flex min-w-0 items-center gap-2.5 rounded-md px-1 py-1 text-left transition-colors hover:bg-muted", activityOpen && "bg-muted")}>
               <span className="relative flex size-2.5 shrink-0">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-signal opacity-50" />
                 <span className="relative inline-flex size-2.5 rounded-full bg-signal" />
               </span>
               <span className="shrink-0 text-[11px] font-semibold uppercase text-muted-foreground">Live activity</span>
               <span className="truncate text-xs font-medium" aria-live="polite">{statuses[statusIndex]}</span>
-            </div>
-            <div className="hidden items-center gap-1 text-xs text-muted-foreground sm:flex">
+               <ChevronRight className={cn("size-3.5 shrink-0 transition-transform", activityOpen && "rotate-90")} />
+             </button>
+             <button type="button" onClick={() => setActivityOpen((value) => !value)} className="hidden items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted sm:flex">
               <span>3 tasks</span><ChevronRight className="size-3.5" />
-            </div>
+             </button>
+
+             {activityOpen && (
+               <div id="live-activity-panel" className="absolute left-4 right-4 top-12 z-40 overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-xl sm:left-auto sm:right-6 sm:w-[36rem]">
+                 <div className="flex items-start justify-between border-b border-border px-4 py-3">
+                   <div><p className="text-sm font-semibold">Pekerjaan langsung</p><p className="text-xs text-muted-foreground">Infinity sedang menyusun tugas Anda</p></div>
+                   <Button type="button" variant="ghost" size="icon" className="size-8 rounded-full" onClick={() => setActivityOpen(false)} aria-label="Tutup live activity"><X /></Button>
+                 </div>
+                 <div className="grid sm:grid-cols-[13rem_minmax(0,1fr)]">
+                   <div className="border-b border-border p-2 sm:border-b-0 sm:border-r">
+                     {liveTasks.map((task) => (
+                       <button key={task.id} type="button" onClick={() => setActiveTask(task.id)} aria-pressed={activeTask === task.id} className={cn("w-full rounded-md px-3 py-2.5 text-left transition-colors hover:bg-muted", activeTask === task.id && "bg-accent text-accent-foreground")}>
+                         <span className="flex items-center justify-between gap-2 text-xs font-semibold"><span className="truncate">{task.label}</span><span>{task.progress}%</span></span>
+                         <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-muted"><span className="block h-full rounded-full bg-primary transition-[width]" style={{ width: `${task.progress}%` }} /></span>
+                       </button>
+                     ))}
+                   </div>
+                   <div className="min-w-0 p-4">
+                     <div className="flex items-start justify-between gap-3"><div><p className="text-sm font-semibold">{selectedTask.label}</p><p className="mt-0.5 text-xs text-muted-foreground">{selectedTask.detail}</p></div><span className="shrink-0 rounded-full bg-mint px-2 py-1 text-[10px] font-semibold text-teal-ink">Berjalan</span></div>
+                     <div className="mt-4 overflow-hidden rounded-md bg-foreground p-3 font-mono text-[11px] leading-5 text-background" aria-live="polite">
+                       {selectedTask.log.map((line, index) => <div key={line} className={cn(index === selectedTask.log.length - 1 && "animate-pulse")}>{line}</div>)}
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             )}
           </div>
         </header>
 

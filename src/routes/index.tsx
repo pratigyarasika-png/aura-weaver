@@ -75,7 +75,6 @@ type EngineMode = "flash" | "pro" | "expert" | "deep" | "journal";
 type AskMode = "general" | "academic";
 
 const ASK_MODE_KEY = "infinity-ask-mode";
-const LEGACY_ASK_MODE_KEY = "orbis-ask-mode";
 
 const askModes = [
   {
@@ -222,7 +221,7 @@ function ResearchWorkspace() {
   const [draftAccent, setDraftAccent] = useState(DEFAULT_ACCENT);
   const [query, setQuery] = useState("");
   const [statusIndex, setStatusIndex] = useState(0);
-  const [askMode, setAskMode] = useState<AskMode>("academic");
+  const [askMode, setAskMode] = useState<AskMode>("general");
   const [answer, setAnswer] = useState("");
   const [answering, setAnswering] = useState(false);
   const [answerError, setAnswerError] = useState<string | null>(null);
@@ -236,7 +235,7 @@ function ResearchWorkspace() {
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("infinity-theme");
     const savedAccent = window.localStorage.getItem("infinity-accent");
-    const savedMode = window.localStorage.getItem(ASK_MODE_KEY) ?? window.localStorage.getItem(LEGACY_ASK_MODE_KEY);
+    const savedMode = window.localStorage.getItem(ASK_MODE_KEY);
     const nextTheme: Theme = savedTheme === "dark" ? "dark" : "light";
     const nextAccent = savedAccent && isHex(savedAccent) ? savedAccent : DEFAULT_ACCENT;
     setTheme(nextTheme);
@@ -747,9 +746,9 @@ function ResearchWorkspace() {
 
             <div className="mt-6 grid w-full max-w-3xl gap-3 sm:mt-4 sm:grid-cols-3">
               {[
-                [MessageSquareText, "Compare methods", "Across selected studies"],
-                [Archive, "Build a review", "Organize the evidence"],
-                [BookOpenText, "Read with AI", "Interrogate a paper"],
+                [MessageSquareText, "Bandingkan Metode", "Analisis komparatif antar-studi"],
+                [Archive, "Tinjauan Literatur", "Sintesis & rangkuman otomatis"],
+                [BookOpenText, "Diskusi AI", "Bedah naskah & tanya jawab"],
               ].map(([Icon, title, detail]) => {
                 const ActionIcon = Icon as typeof MessageSquareText;
                 return (
@@ -791,7 +790,7 @@ function NavGroup({ title, open, children }: { title: string; open: boolean; chi
   return <div>{open && <p className="mb-2 px-3 text-[10px] font-semibold uppercase text-muted-foreground">{title}</p>}<div className="space-y-1">{children}</div></div>;
 }
 
-function NavItem({ icon: Icon, label, open, active = false, to }: { icon: typeof Search; label: string; open: boolean; active?: boolean; to?: "/" | "/search" | "/write" | "/analyze" | "/analysis" | "/converter" }) {
+function NavItem({ icon: Icon, label, open, active = false, to, onClick }: { icon: typeof Search; label: string; open: boolean; active?: boolean; to?: "/" | "/search" | "/write" | "/analyze" | "/analysis" | "/converter"; onClick?: (label: string) => void }) {
   const className = cn("flex h-10 w-full items-center rounded-full text-sm transition-colors", open ? "gap-3 px-2" : "justify-center", active ? "bg-mint/70 font-medium text-sidebar-accent-foreground" : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground");
   const inner = (
     <>
@@ -803,10 +802,10 @@ function NavItem({ icon: Icon, label, open, active = false, to }: { icon: typeof
   );
   if (to) {
     return (
-      <Link to={to} title={!open ? label : undefined} className={className} activeProps={{ className: "bg-mint/70 font-medium text-sidebar-accent-foreground" }}>
+      <Link to={to} title={!open ? label : undefined} className={className} activeProps={{ className: "bg-mint/70 font-medium text-sidebar-accent-foreground" }} onClick={() => onClick?.(label)}>
         {inner}
       </Link>
     );
   }
-  return <button title={!open ? label : undefined} className={className}>{inner}</button>;
+  return <button type="button" title={!open ? label : undefined} className={className} onClick={() => onClick?.(label)}>{inner}</button>;
 }

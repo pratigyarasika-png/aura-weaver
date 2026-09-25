@@ -195,40 +195,37 @@
 }
 
 .hub-glow {
+  width: 42%;
+  aspect-ratio: 1;
   background: color-mix(in oklab, var(--primary) 14%, transparent);
   filter: blur(34px);
   animation: breathe 5s ease-in-out infinite;
 }
 
-.orbit-outer { animation: orbit-spin 48s linear infinite; }
-.hub-action-top { top: 1%; left: 50%; transform: translateX(-50%); }
+.orbit { left: 50%; top: 50%; aspect-ratio: 1; transform: translate(-50%, -50%); }
+.orbit-outer { width: 72%; animation: orbit-spin-centered 48s linear infinite; }
+.orbit-inner { width: 54%; }
+.hub-action-top { top: 3.5%; left: 50%; transform: translateX(-50%); }
 .hub-action-right { right: 0; top: 50%; transform: translateY(-50%); }
-.hub-action-bottom { bottom: 1%; left: 50%; transform: translateX(-50%); }
+.hub-action-bottom { bottom: 3.5%; left: 50%; transform: translateX(-50%); }
 .hub-action-left { left: 0; top: 50%; transform: translateY(-50%); }
 .hub-action-nw { top: 14%; left: 14%; transform: translate(-50%, -50%); }
 .hub-action-top:hover, .hub-action-bottom:hover { transform: translateX(-50%) translateY(-2px); }
 .hub-action-right:hover, .hub-action-left:hover { transform: translateY(calc(-50% - 2px)); }
 .hub-action-nw:hover { transform: translate(calc(-50% - 2px), calc(-50% - 2px)); }
 
-.hub-action { max-width: min(14rem, 46%); }
+.hub-action { width: 18rem; max-width: 29%; }
 .mode-toggle { width: fit-content; max-width: 100%; align-self: center; }
 
 @media (min-width: 768px) {
-  .hub-stage { max-width: 44rem; }
-  .orbit-outer { inset: 6%; }
-  .orbit-inner { inset: 18%; }
-  .hub-glow { inset: 26%; }
-  .hub-action-top { top: 0; }
-  .hub-action-right { right: -1%; }
-  .hub-action-bottom { bottom: 0; }
-  .hub-action-left { left: -1%; }
+  .hub-stage { max-width: 66rem; }
   .hub-action {
-    min-width: 10.5rem;
-    min-height: 3.5rem;
+    min-height: 5.25rem;
   }
 }
 
 @media (max-width: 767px) {
+  .hub-stage { aspect-ratio: 1; }
   .hub-action {
     width: clamp(6.5rem, 22%, 8rem);
     max-width: none;
@@ -237,7 +234,7 @@
   }
   .hub-action-top { top: 0; }
   .hub-action-bottom { bottom: 0; }
-  .hub-core { width: 50% !important; padding: 5% !important; }
+  .hub-core { width: 52% !important; height: 60% !important; padding: 5% !important; }
 }
 
 @media (max-width: 639px) {
@@ -282,7 +279,7 @@
   }
   .hub-action-helper { display: none; }
 
-  .hub-core { width: 44% !important; padding: 3.5% !important; }
+  .hub-core { width: 48% !important; height: 58% !important; padding: 3.5% !important; }
   .hub-core textarea { min-height: 2.25rem; margin-top: 0.25rem; line-height: 1rem; }
   .hub-core .mode-toggle { margin-top: 0.125rem; }
 }

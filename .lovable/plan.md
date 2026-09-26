@@ -1,15 +1,16 @@
-# Infinity branding and interaction update
+# Rekonstruksi UI Infinity dari gambar referensi
 
-## What will change
-- Replace every visible Orbis brand reference with Infinity across all pages, labels, placeholders, tooltips, metadata, and AI-facing text.
-- Rename internal Orbis identifiers to Infinity while preserving existing browser data through legacy-key migration where needed.
-- Add a plus-button attachment menu with Camera, File, Image, and Video choices, filtered file pickers, click-again closing, and click-outside closing.
-- Make orbit nodes, quick actions, module items, recent sessions, sidebar controls, the model selector, and the profile control visibly interactive.
-- Clicking an orbit node or module adds a `[Module Name]` tag to the main question field without navigating away.
-- Keep General AI and Academic Research as working selectable modes managed with React state.
+## Yang akan dibuat
+- Susun ulang halaman utama agar mengikuti gambar terbaru: sidebar tetap, header dua tingkat, judul pembuka, orbit empat node, pusat Ask Infinity, tiga kartu aksi, dan empat kolom alat.
+- Samakan proporsi, warna hijau-mint, garis orbit, bayangan, bentuk kapsul, ukuran ikon Lucide, jarak, dan tipografi dengan referensi.
+- Pertahankan susunan desktop secara presisi dan adaptasikan untuk Android tanpa elemen terpotong atau bertumpuk.
+- Pastikan semua kontrol tetap bekerja: navigasi, pilihan model, pengaturan, profil, live activity, node orbit, menu alat, lampiran, kamera, mikrofon, mode, dan tombol Ask.
 
-## Technical details
-- Extend `src/routes/index.tsx` with React state, refs, hidden upload inputs, outside-click handling, selected-state styling, and tag insertion.
-- Update route metadata and visible copy across `src/routes`, API prompts, shared libraries, and generated editor markup.
-- Preserve old local data by reading legacy Orbis storage keys and writing Infinity keys.
-- Verify zero remaining case-insensitive `Orbis` references, then check build diagnostics and desktop/mobile interactions in the running preview.
+## Pemeriksaan
+- Bandingkan hasil desktop dengan gambar referensi.
+- Uji tampilan Android, bukaan sidebar, popup, pergantian mode, dan penambahan tag.
+- Pastikan tidak ada error tampilan atau aplikasi.
+
+## Detail teknis
+- Perubahan difokuskan pada halaman utama dan token tampilan global yang dipakai halaman tersebut.
+- Gambar kiriman hanya menjadi referensi visual dan tidak dimasukkan sebagai gambar di aplikasi.

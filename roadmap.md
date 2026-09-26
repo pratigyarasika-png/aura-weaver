@@ -9,3 +9,6 @@
 - [x] Verifikasi build, interaksi, desktop, dan mobile.
 - [x] Tambahkan panel Live Activity dengan progres dan log pekerjaan.
 - [x] Ganti avatar DP dan favicon dengan logo Infinity baru.
+- [x] Rekonstruksi halaman utama mengikuti gambar referensi terbaru untuk desktop dan Android.
+- [x] Samakan ikon, warna, orbit, kartu aksi, dan empat kolom alat dengan referensi terbaru.
+- [x] Pertahankan fungsi seluruh kontrol setelah rekonstruksi tampilan.

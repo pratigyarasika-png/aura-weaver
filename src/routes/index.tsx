@@ -341,7 +341,7 @@ function ResearchCanvas() {
                 <div className="flex items-center justify-between border-b border-border p-3"><div><p className="text-sm font-semibold">Pekerjaan langsung</p><p className="text-xs text-muted-foreground">Infinity sedang mengerjakan tugas Anda</p></div><Button variant="ghost" size="icon" className="size-8" onClick={() => setActivityOpen(false)}><X /></Button></div>
                 <div className="grid sm:grid-cols-[190px_1fr]">
                   <div className="border-b border-border p-2 sm:border-b-0 sm:border-r">{liveTasks.map((task, index) => <Button key={task.label} variant="ghost" className={cn("h-auto w-full justify-start px-2 py-2 text-left", activeTask === index && "bg-accent")} onClick={() => setActiveTask(index)}><span className="w-full"><span className="flex justify-between text-xs"><strong>{task.label}</strong><span>{task.progress}%</span></span><span className="mt-1 block h-1 rounded-full bg-muted"><span className="block h-full rounded-full bg-primary" style={{ width: `${task.progress}%` }} /></span></span></Button>)}</div>
-                  <div className="p-3"><p className="text-xs font-semibold">{liveTasks[activeTask].label}</p><div className="mt-2 rounded-md bg-code p-3 font-mono text-[10px] leading-5 text-code-foreground">{liveTasks[activeTask].log.map((line) => <p key={line}>{line}</p>)}</div></div>
+                  <div className="p-3">{(() => { const task = liveTasks[activeTask] ?? liveTasks[0]; return (<><p className="text-xs font-semibold">{task.label}</p><div className="mt-2 rounded-md bg-code p-3 font-mono text-[10px] leading-5 text-code-foreground">{task.log.map((line) => <p key={line}>{line}</p>)}</div></>); })()}</div>
                 </div>
               </div>
             )}

@@ -378,7 +378,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .canvas-node > span:first-child svg { width: 17px; height: 17px; }
   .canvas-node span span:last-child { display: none; }
   .canvas-node-top { top: 0; }
-  .canvas-node-right { right: -2px; top: 50%; }
+  .canvas-node-right { right: 4px; top: 50%; }
   .canvas-node-bottom { bottom: 0; }
-  .canvas-node-left { left: -2px; top: 50%; }
+  .canvas-node-left { left: 4px; top: 50%; }
 }
